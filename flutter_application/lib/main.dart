@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/users/registration_page.dart';
 import 'package:video_player/video_player.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+  // We're using the manual installation on non-web platforms since Google sign in plugin doesn't yet support Dart initialization.
+  // See related issue: https://github.com/flutter/flutter/issues/96391
+
+  // We store the app and auth to make testing with a named instance easier.
+  await Firebase.initializeApp(
+  );
   runApp(const MyApp());
 }
 
@@ -17,7 +26,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const WebEntryPage(),
+      home: LayoutBuilder(
+        builder: (context, constraints) {
+          return const WebEntryPage(); 
+        },
+      ),
+      routes: {
+        '/register': (context) => const Register(),
+      },
     );
   }
 }
@@ -134,7 +150,7 @@ class _WebEntryPageState extends State<WebEntryPage> {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/registration');
+                    Navigator.pushNamed(context, '/register');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF4F46E5),

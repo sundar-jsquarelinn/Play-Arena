@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
+    kotlin("android")
 }
 
 android {
@@ -46,4 +48,14 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+
+dependencies {
+    // 1. You must use the dependencies block scope
+    // 2. Wrap the platform string in quotes inside the platform() function
+    implementation(platform("com.google.firebase:firebase-bom:35.1.0"))
+    
+    // 3. Keep standard dependency string notations in matching parentheses
+    implementation("com.google.firebase:firebase-auth")
 }
